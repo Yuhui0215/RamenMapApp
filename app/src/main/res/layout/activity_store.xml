@@ -25,28 +25,28 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/routeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            android:text="紅線"
             android:textAlignment="textEnd"
             android:textColor="#3A3A3A"
             android:textSize="50sp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/stationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="120dp"
-            android:text="大安站"
             android:textAlignment="textEnd"
             android:textColor="#3A3A3A"
             android:textSize="35sp"
             />
 
-        
+
         <Button
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
