@@ -9,8 +9,6 @@ import android.widget.AdapterView
 import android.widget.Spinner
 import android.widget.ArrayAdapter
 import android.widget.Button
-import com.google.firebase.firestore.FirebaseFirestore
-
 
 class SelectActivity : AppCompatActivity() {
 
@@ -19,15 +17,15 @@ class SelectActivity : AppCompatActivity() {
         val EXTRA_POS2 = "EXTRA_POS2"
     }
 
-    var position1 = -1
-    var position2 = -1
+    private var position1 = -1
+    private var position2 = -1
+    private var station = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select)
 
         val route = arrayOf("淡水信義線(紅線)", "板南線(藍線)", "松山新店線(綠線)", "中和新蘆線(橘線)", "文湖線(棕線)", "環狀線(黃線)")
-        val station = resources.getStringArray(R.array.lineList)
 
         val routeSpinner = findViewById<Spinner>(R.id.route_spinner)
         val stationSpinner = findViewById<Spinner>(R.id.station_spinner)
@@ -45,6 +43,19 @@ class SelectActivity : AppCompatActivity() {
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 position1 = position
+
+                when (position) {
+                    0 -> station = mutableListOf("士林", "大安", "中山", "北投", "台北101/世貿", "台北車站", "民權西路", "石牌", "芝山", "信義安和", "淡水", "象山", "劍潭", "雙連(馬偕紀念醫院)")
+                    1 -> station = mutableListOf("市政府", "永春", "忠孝復興", "忠孝敦化", "板橋", "國父紀念館", "善導寺（華山）", "龍山寺（艋舺商圈）")
+                    2 -> station = mutableListOf("新店 (碧潭)", "大坪林", "公館 (台灣大學)", "台電大樓", "古亭", "小南門", "西門", "松江南京", "南京復興", "台北小巨蛋")
+                    3 -> station = mutableListOf("南勢角", "景安", "頂溪", "中山國小（晴光商圈）", "大橋頭（大橋國小）", "徐匯中學", "三民高中（空中大學）")
+                    4 -> station = mutableListOf("六張犁", "科技大樓", "大直(實踐大學)", "劍南路(美麗華)", "西湖(德明科大)", "港墘", "東湖")
+                    5 -> station = mutableListOf("新埔民生", "幸福")
+                }
+
+                stationAdapter.clear()
+                stationAdapter.addAll(station)
+                stationAdapter.notifyDataSetChanged()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -68,37 +79,13 @@ class SelectActivity : AppCompatActivity() {
     }
 
     private fun search_store(position1: Int, position2: Int) {
-        val selectedRoute = resources.getStringArray(R.array.lineList)[position1]
-
-        val firestore = FirebaseFirestore.getInstance()
-        val collectionRef = firestore.collection("store")
-
-        val query = collectionRef.whereEqualTo("MRTRoute", selectedRoute)
-
-        query.get().addOnSuccessListener { querySnapshot ->
-            val matchingDocuments = querySnapshot.documents
-
-            for (document in matchingDocuments) {
-                val mrtStation = document.getString("MRTStation")
-                Log.d("Matching Document", "MRT Station: $mrtStation")
-            }
-
-            // 在此處處理檢索到的文檔，例如顯示在 UI 上或執行其他操作
-            // ...
-
-        }.addOnFailureListener { exception ->
-            Log.e("Firestore Query", "Error querying Firestore: $exception")
-        }
+        Log.d("in selection", "${position1} + ${position2}\n")
+        val intent = Intent()
+        intent.setClass(this, StoreActivity::class.java)
+        intent.putExtra(EXTRA_POS1, position1)
+        intent.putExtra(EXTRA_POS2, position2)
+        startActivity(intent)
     }
-
-//    private fun search_store(position1: Int, position2: Int) {
-//        Log.d("in selection", "${position1} + ${position2}\n")
-//        val intent = Intent()
-//        intent.setClass(this, StoreActivity::class.java)
-//        intent.putExtra(EXTRA_POS1, position1)
-//        intent.putExtra(EXTRA_POS2, position2)
-//        startActivity(intent)
-//    }
 
 
 }

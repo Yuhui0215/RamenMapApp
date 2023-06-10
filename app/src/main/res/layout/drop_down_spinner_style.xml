@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/spinner_style"
-    android:layout_width="150dp"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:textSize="35sp"
-    android:textColor="@color/white"
-    android:textAlignment="center"
     android:background="#A87E3F"
+    android:textAlignment="center"
+    android:textColor="@color/white"
+    android:textSize="35sp"
     android:verticalScrollbarPosition="left">
 
 </TextView>
