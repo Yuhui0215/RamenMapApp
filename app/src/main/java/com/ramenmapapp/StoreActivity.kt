@@ -1,5 +1,6 @@
 package com.ramenmapapp
 
+import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -15,18 +16,40 @@ class StoreActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_store)
 
+        FirebaseApp.initializeApp(this)
+
         val position1 = intent.getIntExtra(SelectActivity.EXTRA_POS1, 0)
         val position2 = intent.getIntExtra(SelectActivity.EXTRA_POS2, 0)
         Log.d("in store", "${position1} + ${position2}\n")
 
         val routeText = findViewById<TextView>(R.id.routeText)
         val stationText = findViewById<TextView>(R.id.stationText)
+        val logTextView = findViewById<TextView>(R.id.logTextView)
 
         MRTRoute = getRouteText(position1)
         MRTStation = getStationText(position1, position2)
 
         routeText.text = MRTRoute
         stationText.text = MRTStation
+
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("store") // 替换为你的Firestore集合名称
+            .whereEqualTo("MRTRoute", MRTRoute)
+            .whereEqualTo("MRTStation", MRTStation)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val logMessage = "${document.id} => ${document.data}"
+                    Log.d(TAG, logMessage)
+                    logTextView.append(logMessage + "\n")
+                }
+            }
+            .addOnFailureListener { e ->
+                val errorMessage = "Error getting documents: ${e.message}"
+                Log.w(TAG, errorMessage)
+                logTextView.append(errorMessage + "\n")
+            }
     }
 
     private fun getRouteText(position: Int): String {
