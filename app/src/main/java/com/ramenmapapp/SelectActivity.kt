@@ -9,6 +9,8 @@ import android.widget.AdapterView
 import android.widget.Spinner
 import android.widget.ArrayAdapter
 import android.widget.Button
+import com.google.firebase.firestore.FirebaseFirestore
+
 
 class SelectActivity : AppCompatActivity() {
 
@@ -66,13 +68,37 @@ class SelectActivity : AppCompatActivity() {
     }
 
     private fun search_store(position1: Int, position2: Int) {
-        Log.d("in selection", "${position1} + ${position2}\n")
-        val intent = Intent()
-        intent.setClass(this, StoreActivity::class.java)
-        intent.putExtra(EXTRA_POS1, position1)
-        intent.putExtra(EXTRA_POS2, position2)
-        startActivity(intent)
+        val selectedRoute = resources.getStringArray(R.array.lineList)[position1]
+
+        val firestore = FirebaseFirestore.getInstance()
+        val collectionRef = firestore.collection("store")
+
+        val query = collectionRef.whereEqualTo("MRTRoute", selectedRoute)
+
+        query.get().addOnSuccessListener { querySnapshot ->
+            val matchingDocuments = querySnapshot.documents
+
+            for (document in matchingDocuments) {
+                val mrtStation = document.getString("MRTStation")
+                Log.d("Matching Document", "MRT Station: $mrtStation")
+            }
+
+            // 在此處處理檢索到的文檔，例如顯示在 UI 上或執行其他操作
+            // ...
+
+        }.addOnFailureListener { exception ->
+            Log.e("Firestore Query", "Error querying Firestore: $exception")
+        }
     }
+
+//    private fun search_store(position1: Int, position2: Int) {
+//        Log.d("in selection", "${position1} + ${position2}\n")
+//        val intent = Intent()
+//        intent.setClass(this, StoreActivity::class.java)
+//        intent.putExtra(EXTRA_POS1, position1)
+//        intent.putExtra(EXTRA_POS2, position2)
+//        startActivity(intent)
+//    }
 
 
 }
