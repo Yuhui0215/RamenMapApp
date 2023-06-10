@@ -24,22 +24,22 @@ class SelectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select)
 
-        val areas = resources.getStringArray(R.array.areaList)
-        val lines = resources.getStringArray(R.array.lineList)
+        val route = arrayOf("淡水信義線(紅線)", "板南線(藍線)", "松山新店線(綠線)", "中和新蘆線(橘線)", "文湖線(棕線)", "環狀線(黃線)")
+        val station = resources.getStringArray(R.array.lineList)
 
-        val areaSpinner = findViewById<Spinner>(R.id.area_spinner)
-        val lineSpinner = findViewById<Spinner>(R.id.line_spinner)
+        val routeSpinner = findViewById<Spinner>(R.id.route_spinner)
+        val stationSpinner = findViewById<Spinner>(R.id.station_spinner)
         val searchBtn = findViewById<Button>(R.id.search_button)
 
-        val areaAdapter = ArrayAdapter(this, R.layout.selected_spinner_style, areas)
-        areaAdapter.setDropDownViewResource(R.layout.drop_down_spinner_style)
-        areaSpinner.adapter = areaAdapter
+        val routeAdapter = ArrayAdapter(this, R.layout.selected_spinner_style, route)
+        routeAdapter.setDropDownViewResource(R.layout.drop_down_spinner_style)
+        routeSpinner.adapter = routeAdapter
 
-        val lineAdapter = ArrayAdapter(this, R.layout.selected_spinner_style, lines)
-        lineAdapter.setDropDownViewResource(R.layout.drop_down_spinner_style)
-        lineSpinner.adapter = lineAdapter
+        val stationAdapter = ArrayAdapter(this, R.layout.selected_spinner_style, station)
+        stationAdapter.setDropDownViewResource(R.layout.drop_down_spinner_style)
+        stationSpinner.adapter = stationAdapter
 
-        areaSpinner.onItemSelectedListener = object :
+        routeSpinner.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 position1 = position
@@ -50,7 +50,7 @@ class SelectActivity : AppCompatActivity() {
             }
         }
 
-        lineSpinner.onItemSelectedListener = object :
+        stationSpinner.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 position2 = position

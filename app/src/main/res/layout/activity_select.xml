@@ -60,7 +60,7 @@
             android:textSize="35sp" />
 
         <Spinner
-            android:id="@+id/area_spinner"
+            android:id="@+id/route_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="60dp"
@@ -79,7 +79,7 @@
             android:textSize="35sp" />
 
         <Spinner
-            android:id="@+id/line_spinner"
+            android:id="@+id/station_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="60dp"
