@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "454587903549",
+    "project_id": "ramen-map-app-433a9",
+    "storage_bucket": "ramen-map-app-433a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454587903549:android:de2e20209be8b607564454",
+        "android_client_info": {
+          "package_name": "com.ramenmapapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454587903549-kui6beql78j4qkt7llsdkes7g2nermb4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIb58P3VMFrUSinCoJ60ZS4zLUUmVOOyU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "454587903549-kui6beql78j4qkt7llsdkes7g2nermb4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
