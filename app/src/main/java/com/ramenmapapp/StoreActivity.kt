@@ -40,7 +40,7 @@ class StoreActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    val logMessage = "${document.id} => ${document.data}"
+                    val logMessage = "StoreName: ${document.getString("StoreName")}, MRTRoute: ${document.getString("MRTRoute")}"
                     Log.d(TAG, logMessage)
                     logTextView.append(logMessage + "\n")
                 }
