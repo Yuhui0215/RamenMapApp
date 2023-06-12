@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#774805"
+    android:background="@color/main_color"
     tools:context=".MainActivity">
 
     <RelativeLayout
@@ -36,13 +36,14 @@
         <Button
             android:id="@+id/cover_button"
             android:layout_width="211dp"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:layout_marginTop="580dp"
-            android:backgroundTint="#A87E3F"
+            android:backgroundTint="@color/btn_color"
             android:text="@string/cover_button_str"
             android:textSize="30sp"
             android:layout_centerHorizontal="true"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView" />
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:cornerRadius="15dp"/>
 
 
     </RelativeLayout>

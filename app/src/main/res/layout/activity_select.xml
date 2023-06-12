@@ -13,7 +13,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" >
 
         <ImageView
             android:id="@+id/selectView"
@@ -52,10 +52,9 @@
             android:id="@+id/search_area_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="200dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="220dp"
             android:text="@string/search_area"
-            android:textAlignment="textEnd"
             android:textColor="#3A3A3A"
             android:textSize="35sp" />
 
@@ -63,18 +62,17 @@
             android:id="@+id/route_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="260dp"
-            android:dropDownVerticalOffset="47sp" />
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="280dp"
+            android:spinnerMode="dialog" />
 
         <TextView
             android:id="@+id/search_line_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="350dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="380dp"
             android:text="@string/search_line"
-            android:textAlignment="textEnd"
             android:textColor="#3A3A3A"
             android:textSize="35sp" />
 
@@ -82,19 +80,21 @@
             android:id="@+id/station_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="410dp"
-            android:dropDownVerticalOffset="47sp" />
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="440dp"
+            android:spinnerMode="dialog"
+            />
 
         <Button
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="550dp"
-            android:backgroundTint="#A87E3F"
+            android:layout_height="80dp"
+            android:layout_marginTop="560dp"
+            android:backgroundTint="@color/btn_color"
             android:text="@string/search_button_str"
             android:textSize="30sp"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            app:cornerRadius="15dp" />
 
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

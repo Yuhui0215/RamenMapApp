@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">RamenMapApp</string>
-    <string name="cover_title">臺 北 拉 麵 地 圖</string>
+    <string name="cover_title">臺北捷運拉麵地圖</string>
     <string name="cover_button_str">開始搜尋</string>
     <string name="find_ramen">找 拉 麵</string>
     <string name="search_title">搜尋條件選擇</string>
-    <string name="search_area">地區：</string>
-    <string name="search_line">捷運線：</string>
+    <string name="search_area">捷運線：</string>
+    <string name="search_line">捷運站：</string>
     <string name="search_button_str">搜尋店家</string>
+    <string name="re_search_route">重新選擇路線</string>
+    <string name="re_select_store">重新選擇店家</string>
 </resources>

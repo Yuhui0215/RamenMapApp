@@ -32,11 +32,11 @@ class SelectActivity : AppCompatActivity() {
         val searchBtn = findViewById<Button>(R.id.search_button)
 
         val routeAdapter = ArrayAdapter(this, R.layout.selected_spinner_style, route)
-        routeAdapter.setDropDownViewResource(R.layout.drop_down_spinner_style)
+        routeAdapter.setDropDownViewResource(R.layout.jump_out_spinner_style)
         routeSpinner.adapter = routeAdapter
 
         val stationAdapter = ArrayAdapter(this, R.layout.selected_spinner_style, station)
-        stationAdapter.setDropDownViewResource(R.layout.drop_down_spinner_style)
+        stationAdapter.setDropDownViewResource(R.layout.jump_out_spinner_style)
         stationSpinner.adapter = stationAdapter
 
         routeSpinner.onItemSelectedListener = object :

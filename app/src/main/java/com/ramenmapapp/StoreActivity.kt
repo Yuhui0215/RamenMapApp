@@ -1,17 +1,28 @@
 package com.ramenmapapp
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.ListView
 import android.widget.TextView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 
 class StoreActivity : AppCompatActivity() {
 
+    companion object {
+        val EXTRA_INDEX = "EXTRA_INDEX"
+    }
+
     private var MRTRoute: String = ""
     private var MRTStation: String = ""
+
+    lateinit var research_btn: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_store)
@@ -24,32 +35,56 @@ class StoreActivity : AppCompatActivity() {
 
         val routeText = findViewById<TextView>(R.id.routeText)
         val stationText = findViewById<TextView>(R.id.stationText)
-        val logTextView = findViewById<TextView>(R.id.logTextView)
+        //val logTextView = findViewById<TextView>(R.id.logTextView)
+        research_btn = findViewById(R.id.research_button)
+        research_btn.setOnClickListener { reselect() }
 
         MRTRoute = getRouteText(position1)
         MRTStation = getStationText(position1, position2)
 
         routeText.text = MRTRoute
-        stationText.text = MRTStation
+        stationText.text = MRTStation + "站"
 
         val db = FirebaseFirestore.getInstance()
 
-        db.collection("store") // 替换为你的Firestore集合名称
+        val storeList = ArrayList<String>()
+
+        db.collection("store") // 替換為你的Firestore集合名稱
             .whereEqualTo("MRTRoute", MRTRoute)
             .whereEqualTo("MRTStation", MRTStation)
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    val logMessage = "StoreName: ${document.getString("StoreName")}, MRTRoute: ${document.getString("MRTRoute")}"
+                    val storeName = document.getString("StoreName")
+                    val mrtRoute = document.getString("MRTRoute")
+                    val logMessage = "StoreName: ${storeName}, MRTRoute: ${mrtRoute}"
+                    // generate list
+
+                    if (storeName != null) {
+                        storeList.add(storeName)
+                    }
+
+
                     Log.d(TAG, logMessage)
-                    logTextView.append(logMessage + "\n")
+                    //logTextView.append(logMessage + "\n")
+                }
+                //Log.d(TAG, "RIGHT HERE! + ${storeList[0]} + ${storeList.get(1)}")
+                val listView: ListView = findViewById(R.id.store_list)
+                val adapter = ArrayAdapter(this, R.layout.each_store_list, storeList)
+                listView.adapter = adapter
+                listView.setOnItemClickListener{
+                        parent, view, index, id ->
+                    showMap(index)
                 }
             }
             .addOnFailureListener { e ->
                 val errorMessage = "Error getting documents: ${e.message}"
                 Log.w(TAG, errorMessage)
-                logTextView.append(errorMessage + "\n")
+                //logTextView.append(errorMessage + "\n")
             }
+
+
+
     }
 
     private fun getRouteText(position: Int): String {
@@ -151,5 +186,16 @@ class StoreActivity : AppCompatActivity() {
         return ""
     }
 
+    private fun showMap(index: Int) {
+        val intent = Intent()
+        intent.setClass(this, MapActivity::class.java)
+        intent.putExtra(EXTRA_INDEX, index)
+        startActivity(intent)
+    }
 
+    private fun reselect() {
+        val intent = Intent()
+        intent.setClass(this, SelectActivity::class.java)
+        startActivity(intent)
+    }
 }

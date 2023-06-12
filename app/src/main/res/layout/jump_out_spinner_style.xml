@@ -2,11 +2,13 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/spinner_style"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#A87E3F"
+    android:layout_height="wrap_content"
+    android:background="@color/btn_color"
     android:textAlignment="center"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
     android:textColor="@color/white"
-    android:textSize="35sp"
-    android:verticalScrollbarPosition="left">
-
+    android:textSize="30sp"
+    android:verticalScrollbarPosition="left"
+    >
 </TextView>
