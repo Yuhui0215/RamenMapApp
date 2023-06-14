@@ -20,6 +20,10 @@ class StoreActivity : AppCompatActivity() {
 
     private var MRTRoute: String = ""
     private var MRTStation: String = ""
+    private var latitude: Double = 0.0
+    private var longitude: Double = 0.0
+    private var Tel: String = ""
+    private var BusinessHour: String = ""
 
     lateinit var research_btn: Button
 
@@ -58,12 +62,15 @@ class StoreActivity : AppCompatActivity() {
                     val storeName = document.getString("StoreName")
                     val mrtRoute = document.getString("MRTRoute")
                     val logMessage = "StoreName: ${storeName}, MRTRoute: ${mrtRoute}"
-                    // generate list
 
+                    Tel = document.getString("Tel").toString()
+                    BusinessHour = document.getString("BusinessHour").toString()
+                    latitude = document.getDouble("latitude") ?: 0.0
+                    longitude = document.getDouble("longitude") ?: 0.0
+                    // generate list
                     if (storeName != null) {
                         storeList.add(storeName)
                     }
-
 
                     Log.d(TAG, logMessage)
                     //logTextView.append(logMessage + "\n")
@@ -71,10 +78,12 @@ class StoreActivity : AppCompatActivity() {
                 //Log.d(TAG, "RIGHT HERE! + ${storeList[0]} + ${storeList.get(1)}")
                 val listView: ListView = findViewById(R.id.store_list)
                 val adapter = ArrayAdapter(this, R.layout.each_store_list, storeList)
+
                 listView.adapter = adapter
                 listView.setOnItemClickListener{
                         parent, view, index, id ->
-                    showMap(index)
+                    showMap(index, latitude, longitude, Tel, BusinessHour)
+
                 }
             }
             .addOnFailureListener { e ->
@@ -82,11 +91,9 @@ class StoreActivity : AppCompatActivity() {
                 Log.w(TAG, errorMessage)
                 //logTextView.append(errorMessage + "\n")
             }
-
-
-
     }
 
+    //捷運線
     private fun getRouteText(position: Int): String {
         return when (position) {
             0 -> "淡水信義線(紅線)"
@@ -99,6 +106,7 @@ class StoreActivity : AppCompatActivity() {
         }
     }
 
+    //捷運站
     private fun getStationText(position1: Int, position2: Int): String {
         if (position1 == 0) {
             return when (position2) {
@@ -186,12 +194,39 @@ class StoreActivity : AppCompatActivity() {
         return ""
     }
 
-    private fun showMap(index: Int) {
+    private fun showMap(index: Int, latitude: Double, longitude: Double, Tel: String, BusinessHour: String) {
+        //Log.d("Latitude", latitude.toString())
+        //Log.d("Longitude", longitude.toString())
+        val iframeUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3611.5605232942594!2d121.77319531111549!3d25.150544677648206!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x345d4f063c44f073%3A0x58da11f75dcc14d!2z5ZyL56uL6Ie654Gj5rW35rSL5aSn5a24!5e0!3m2!1szh-TW!2stw!4v1686711462385!5m2!1szh-TW!2stw"
+
+        val modifiedIframeUrl = iframeUrl.replace("!3d25.150544677648206", "!3d$latitude")
+                                    .replace("!2d121.77319531111549", "!2d$longitude")
+
+        val intent = Intent(this, MapActivity::class.java)
+        intent.putExtra(EXTRA_INDEX, index)
+        intent.putExtra("IFRAME_URL", modifiedIframeUrl)
+        intent.putExtra("Tel", Tel)
+        intent.putExtra("BusinessHour", BusinessHour)
+        Log.d("Tel", Tel)
+        Log.d("BusinessHour", BusinessHour)
+        startActivity(intent)
+    }
+
+
+    /*private fun showMap(index: Int, latitude: Double, longitude: Double) {
+        val intent = Intent(this, MapActivity::class.java)
+        intent.putExtra(EXTRA_INDEX, index)
+        intent.putExtra("LATITUDE", latitude)
+        intent.putExtra("LONGITUDE", longitude)
+        startActivity(intent)
+    }*/
+
+    /*private fun showMap(index: Int) {
         val intent = Intent()
         intent.setClass(this, MapActivity::class.java)
         intent.putExtra(EXTRA_INDEX, index)
         startActivity(intent)
-    }
+    }*/
 
     private fun reselect() {
         val intent = Intent()
