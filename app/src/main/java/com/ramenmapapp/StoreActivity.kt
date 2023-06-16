@@ -10,7 +10,10 @@ import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
 import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+
+
 
 class StoreActivity : AppCompatActivity() {
 
@@ -51,8 +54,7 @@ class StoreActivity : AppCompatActivity() {
         stationText.text = MRTStation + "站"
 
         val db = FirebaseFirestore.getInstance()
-
-        val storeList = ArrayList<String>()
+        val storeList = ArrayList<DocumentSnapshot>()
 
         db.collection("store") // 替換為你的Firestore集合名稱
             .whereEqualTo("MRTRoute", MRTRoute)
@@ -71,7 +73,7 @@ class StoreActivity : AppCompatActivity() {
 
                     // generate list
                     if (storeName != null) {
-                        storeList.add(storeName)
+                        storeList.add(document)
                     }
 
                     Log.d(TAG, logMessage)
@@ -79,15 +81,15 @@ class StoreActivity : AppCompatActivity() {
                 }
                 //Log.d(TAG, "RIGHT HERE! + ${storeList[0]} + ${storeList.get(1)}")
                 val listView: ListView = findViewById(R.id.store_list)
-                val adapter = ArrayAdapter(this, R.layout.each_store_list, storeList)
-
+                val adapter = ArrayAdapter<String>(this, R.layout.each_store_list)
+                adapter.addAll(storeList.mapNotNull { it.getString("StoreName") })
                 listView.adapter = adapter
                 listView.setOnItemClickListener{
                         parent, view, index, id ->
-                    showMap(index)
+                    val selectedStore = storeList[index]
+                    showMap(selectedStore)
 
                 }
-
             }
             .addOnFailureListener { e ->
                 val errorMessage = "Error getting documents: ${e.message}"
@@ -197,16 +199,15 @@ class StoreActivity : AppCompatActivity() {
         return ""
     }
 
-    private fun showMap(index: Int) {
+    private fun showMap(selectedStore: DocumentSnapshot) {
         val intent = Intent()
         intent.setClass(this, MapActivity::class.java)
-        intent.putExtra(EXTRA_INDEX, index)
-        intent.putExtra("googleMap", googleMap)
-        intent.putExtra("Tel", Tel)
-        intent.putExtra("BusinessHour", BusinessHour)
-        intent.putExtra("StoreName", storeName)
-        intent.putExtra("Address", Address)
-        intent.putExtra("Station", MRTRoute+" "+MRTStation+"站")
+        intent.putExtra("Tel", selectedStore.getString("Tel"))
+        intent.putExtra("googleMap", selectedStore.getString("googleMap"))
+        intent.putExtra("BusinessHour", selectedStore.getString("BusinessHour"))
+        intent.putExtra("StoreName", selectedStore.getString("StoreName"))
+        intent.putExtra("Address", selectedStore.getString("Address"))
+        intent.putExtra("Station", MRTRoute + " " + MRTStation + "站")
         startActivity(intent)
     }
 
