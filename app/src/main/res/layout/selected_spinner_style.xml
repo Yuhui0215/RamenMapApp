@@ -2,7 +2,7 @@
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/spinner_style"
-    android:layout_width="320dp"
+    android:layout_width="290dp"
     android:layout_height="match_parent"
     android:paddingTop="7dp"
     android:paddingBottom="7dp"

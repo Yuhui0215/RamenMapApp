@@ -40,7 +40,7 @@
             android:id="@+id/reselect_button"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="30dp"
             android:backgroundTint="#A87E3F"
             android:text="@string/re_select_store"
             android:textSize="30sp"
