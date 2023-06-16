@@ -16,6 +16,7 @@ class MapActivity : AppCompatActivity(){
 
     lateinit var re_select_btn: Button
     lateinit var store_info: TextView
+    lateinit var store_text: TextView
     lateinit var mapWebView: WebView
 
     private var googleMap: String = ""
@@ -25,6 +26,7 @@ class MapActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
         store_info = findViewById(R.id.store_info)
+        store_text = findViewById(R.id.storeText)
 
         //嵌入式地圖
         mapWebView = findViewById(R.id.mapWebView)
@@ -55,7 +57,8 @@ class MapActivity : AppCompatActivity(){
         val Station = intent.getStringExtra("Station")
         val TelText = if (Tel.isNullOrEmpty()) "沒有電話資訊" else Tel
         val BusinessHourText = if (Tel.isNullOrEmpty()) "沒有營業時間資訊" else BusinessHour
-        store_info.text = "店名：$StoreName\n營業時間：$BusinessHourText\n電話：$TelText\n地址：$Address\n鄰近捷運站：$Station"
+        store_info.text = "營業時間：$BusinessHourText\n\n電話：$TelText\n\n地址：$Address\n\n鄰近捷運站：$Station"
+        store_text.text = StoreName
 
         //重新選擇店家
         re_select_btn = findViewById(R.id.reselect_button)
